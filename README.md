@@ -1,4 +1,4 @@
-# tape-chart
+# social site
 
 > A Vue.js project
 
