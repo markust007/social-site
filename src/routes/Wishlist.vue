@@ -1,7 +1,16 @@
 <template>
   <section id="wishlist">
+
+    <div class="header" v-show="!editList && !showList">
+      <h3>Lists</h3>
+      <div class="buttons">
+        <v-btn fab dark color="cyan" @click="createList">
+          <v-icon dark size="30" style="marginTop:23px;">add</v-icon>
+        </v-btn>
+      </div>
+    </div>
+
     <div class="list-items" v-show="!showList">
-      <h3 class="title">Lists</h3>
       <ul>
         <li v-for="(item, index) in wishlist" @click="select(item)">
           <p class="wish-for">{{item.for}}</p>
@@ -11,10 +20,6 @@
       </ul>
     </div>
 
-    <!-- <transition
-      name="custom-classes-transition"
-      enter-active-class="animated fadeIn"
-    > -->
       <div class="wishlist" v-show="!editList && showList">
         <div class="top">
           <button class="edit" @click="backtoLists"><v-icon>arrow_back</v-icon></button>
@@ -31,36 +36,30 @@
           </li>
         </ul>
       </div>
-    <!-- </transition> -->
-
-    <button class="new-list" :class="{close: newList}"@click="createList" v-show="!editList && !showList"><v-icon>add</v-icon></button>
 
     <!-- WISHLIST NEW-->
-    <!-- <transition
-      name="custom-classes-transition"
-      enter-active-class="animated fadeIn"
-      leave-active-class="animated fadeOut"
-    > -->
-      <div class="wishlist new" v-show="newList && !editList && !showList">
-        <p>Title:</p>
-        <input type="text" v-model="newItems.for" class="title" />
-        <ul>
-          <li v-for="(item, index) in items">
-            <input type="text" v-model="items[index].item" />
-          </li>
-        </ul>
-        <div class="buttons">
-          <button @click="addItem" class="edit"><v-icon>add</v-icon></button>
-          <button class="edit" @click="pushList"><v-icon>save</v-icon></button>
-        </div>
-      </div>
-    <!-- </transition> -->
+        <v-dialog
+          v-model="dialog"
+          width="600"
+          persistent
+        >
+          <v-card style="maxHeight:600px;overflow:auto;" class="wishlist new">
+              <p>Title:</p>
+              <input type="text" v-model="newItems.for" class="title" />
+              <ul>
+                <li v-for="(item, index) in items">
+                  <input type="text" v-model="items[index].item" />
+                </li>
+              </ul>
+              <div class="buttons">
+                <button @click="addItem" class="edit"><v-icon>add</v-icon></button>
+                <button class="edit" @click="pushList"><v-icon>save</v-icon></button>
+                <button class="edit" @click="createList"><v-icon>clear</v-icon></button>
+              </div>
+          </v-card>
+        </v-dialog>
 
     <!-- WISHLIST EDIT -->
-    <!-- <transition
-      name="custom-classes-transition"
-      enter-active-class="animated fadeIn"
-    > -->
       <div class="wishlist editlist" v-if="editList">
         <p>Title:</p>
         <input type="text" v-model="editItems.for" class="title" />
@@ -74,7 +73,6 @@
           <button class="edit" @click="saveEditList"><v-icon>save</v-icon></button>
         </div>
       </div>
-    <!-- </transition> -->
 
     <!-- MODAL -->
     <transition
@@ -115,7 +113,8 @@ export default {
       editItems: [{}],
       mainItems: [{}],
       got: [],
-      key: null
+      key: null,
+      dialog: false
     };
   },
 
@@ -255,12 +254,14 @@ export default {
       if(this.newList) {
         this.closeNewList();
       } else {
+        this.dialog = true
         this.newList = true
         this.newItems.created = this.name
         this.newItems.date = this.date
       }
     },
     closeNewList() {
+      this.dialog = false
       this.newList = false
       this.items = [{"item": "Edit Item", "got": false}],
       this.newItems = {
@@ -350,25 +351,30 @@ export default {
 #wishlist {
   text-align: left;
 }
-.list-items {
-  background: #fff;
-  border: 1px solid #ccc;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: -15px;
   h3 {
-    background: rgba(0,0,0,0.08);
-    padding: 10px;
+    flex: 1 0 auto;
     font-size: 1.25rem;
-    margin: 0;
+    color: #666;
   }
+}
+.list-items {
   ul {
+    background: white;
     list-style-type: none;
     margin: 0;
     padding: 0;
+    border: 1px solid #ccc;
     li {
       padding: 10px;
       border-top: 1px solid #ccc;
       cursor: pointer;
+      &:first-child {
+        border-top: 0px solid #ccc;
+      }
       p {
         margin: 0;
         &.wish-for {
@@ -500,9 +506,6 @@ export default {
       }
     }
   }
-  &.new {
-    margin-top: -18px;
-  }
   &.new, &.editlist {
     p {
       margin: 0;
@@ -529,6 +532,14 @@ export default {
     }
     .buttons {
       padding: 0 15px 10px;
+    }
+  }
+  &.new {
+    margin-bottom: 0;
+    border: 0px solid #ccc;
+    border-radius: 0px;
+    input {
+      width: 100%;
     }
   }
 }

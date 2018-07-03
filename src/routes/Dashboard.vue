@@ -1,25 +1,37 @@
 <template>
   <section id="dashboard">
     <nav>
-        <v-card flat to="calendar">
-          <p class="head">Calendar<span><i class="fas fa-chevron-right"></i></span></p>
+        <v-card flat to="calendar" hover>
+          <div class="icon" style="borderRadius:50%;">
+            <v-icon x-large color="white" style="marginTop: 16px;">date_range</v-icon>
+          </div>
+          <p class="head">Calendar</p>
           <h3>{{eventsLength}}</h3>
-          <p class="text">Total Events</p>
-          <v-btn color="cyan" dark style="marginTop:15px">View Calendar</v-btn>
+          <p class="text">Events</p>
+          <v-divider></v-divider>
+          <v-btn flat large block color="cyan" style="margin:-1px 0">View<v-icon size="20" style="marginLeft:5px">arrow_forward</v-icon></v-btn>
         </v-card>
 
-        <v-card flat to="comments">
-          <p class="head">Comments<span><i class="fas fa-chevron-right"></i></span></p>
+        <v-card flat to="comments" hover>
+          <div class="icon" style="borderRadius:50%;">
+            <v-icon x-large color="white" style="marginTop: 20px;">chat_bubble</v-icon>
+          </div>
+          <p class="head">Comments</p>
           <h3>{{commentsLength}}</h3>
-          <p class="text">Total Comments</p>
-          <v-btn color="cyan" dark style="marginTop:15px">View Comments</v-btn>
+          <p class="text">Comments</p>
+          <v-divider></v-divider>
+          <v-btn flat large block color="cyan" style="margin:-1px 0">View<v-icon size="20" style="marginLeft:5px">arrow_forward</v-icon></v-btn>
         </v-card>
 
-        <v-card flat to="wishlist">
-          <p class="head">Wishlists<span><i class="fas fa-chevron-right"></i></span></p>
+        <v-card flat to="wishlist" hover>
+          <div class="icon" style="borderRadius:50%;">
+            <v-icon x-large color="white" style="marginTop: 20px;">list</v-icon>
+          </div>
+          <p class="head">Wishlists</p>
           <h3>{{wishlistLength}}</h3>
-          <p class="text">Total Wishlist's</p>
-          <v-btn color="cyan" dark style="marginTop:15px">View Wishlists</v-btn>
+          <p class="text">Wishlists</p>
+          <v-divider></v-divider>
+          <v-btn flat large block color="cyan" style="margin:-1px 0">View<v-icon size="20" style="marginLeft:5px">arrow_forward</v-icon></v-btn>
         </v-card>
     </nav>
   </section>
@@ -62,8 +74,8 @@ export default {
 nav {
   display: flex;
   a {
-    min-width: 200px;
-    min-height: 225px;
+    flex: 1;
+    // min-width: 200px;
     background: #fff;
     margin: 0 35px 0 0;
     border: 1px solid #ddd;
@@ -75,26 +87,29 @@ nav {
     p, h3 {
       text-decoration: none;
     }
+    .icon {
+      width: 75px;
+      height: 75px;
+      margin: 15px auto 0;
+      background: #00BCD4;
+    }
     .head {
-      background: #eee;
       margin: 0;
-      padding: 5px 10px;
+      margin-top: 10px;
       font-weight: 700;
-      color: #666;
-      border-bottom: 1px solid #ddd;
-      text-align: left;
-      span {
-        float: right;
-      }
+      color: #000;
+      text-align: center;
+      font-size: 1.2rem;
     }
     h3 {
-      font-size: 4rem;
-      margin: 20px 0 0;
-      color: #666;
+      font-size: 5rem;
+      margin: 0;
+      color: #00BCD4;
+      line-height: 1.1;
     }
     .text {
-      color: #666;
-      margin: 0;
+      color: #000;
+      margin: -10px 0 20px;
       font-weight: 700;
     }
   }

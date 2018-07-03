@@ -13,10 +13,23 @@
         </div>
       </li>
     </ul>
-    <div class="add-comment">
+    <v-text-field
+            v-model="message"
+            :append-icon="message ? 'send' : ''"
+            clearable
+            type="text"
+            box
+            solo
+            flat
+            color="cyan"
+            background-color="white"
+            placeholder="Type a message"
+            @click:append="addComment"
+          ></v-text-field>
+    <!-- <div class="add-comment">
       <input type="text" placeholder="Enter Comment" v-model="message" />
       <input type="submit" value="Add" @click.prevent="addComment">
-    </div>
+    </div> -->
   </section>
 </template>
 
@@ -30,6 +43,7 @@ export default {
     return {
       sign: true,
       message: "",
+      marker: true
     };
   },
 
@@ -86,6 +100,11 @@ export default {
     }
   },
   mounted() {
+    window.scrollBy({
+      top: document.body.scrollHeight, // could be negative value
+      left: 0,
+      behavior: 'smooth'
+    });
     setTimeout(() => {
 
     }, 500);

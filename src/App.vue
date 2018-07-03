@@ -2,11 +2,11 @@
   <div id="app">
     <v-app>
       <Auth :comments="comments" @signedIn="signedIn = true" v-show="!signedIn"></Auth>
-      <v-navigation-drawer v-model="drawer" app v-show="signedIn">
+      <v-navigation-drawer width="225" clipped v-model="drawer" app v-show="signedIn">
       <v-divider></v-divider>
       <v-list dense class="pt-0">
-        <router-link to="/">
-          <v-list-tile>
+
+          <v-list-tile active-class="cyan--text" to="/">
             <v-list-tile-action>
               <v-icon>home</v-icon>
             </v-list-tile-action>
@@ -14,9 +14,8 @@
               <v-list-tile-title>Home</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-        </router-link>
-        <router-link to="/calendar">
-          <v-list-tile>
+
+          <v-list-tile active-class="cyan--text" to="/calendar">
             <v-list-tile-action>
               <v-icon>date_range</v-icon>
             </v-list-tile-action>
@@ -24,9 +23,8 @@
               <v-list-tile-title>Calendar</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-        </router-link>
-        <router-link to="/comments">
-          <v-list-tile>
+
+          <v-list-tile active-class="cyan--text" to="/comments">
             <v-list-tile-action>
               <v-icon>chat_bubble</v-icon>
             </v-list-tile-action>
@@ -34,9 +32,8 @@
               <v-list-tile-title>Comments</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-        </router-link>
-        <router-link to="/wishlist">
-          <v-list-tile>
+
+          <v-list-tile active-class="cyan--text" to="/wishlist">
             <v-list-tile-action>
               <v-icon>list</v-icon>
             </v-list-tile-action>
@@ -44,16 +41,17 @@
               <v-list-tile-title>Wishlist</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-        </router-link>
+
       </v-list>
       </v-navigation-drawer>
-      <v-toolbar color="cyan" dark fixed app dense flat v-show="signedIn">
+      <v-toolbar color="white" fixed app dense clipped-left class="elevation-1" v-show="signedIn">
         <v-toolbar-side-icon @click.stop="drawer = !drawer">
-          <v-icon large color="white" v-if="drawer">clear</v-icon>
-          <v-icon large color="white" v-else>menu</v-icon>
+          <v-icon large color="cyan" v-if="drawer">clear</v-icon>
+          <v-icon large color="cyan" v-else>menu</v-icon>
         </v-toolbar-side-icon>
-        <v-toolbar-title>Social Media</v-toolbar-title>
-        <div icon class="initials">
+        <v-divider vertical></v-divider>
+        <v-toolbar-title class="cyan--text">Social Media</v-toolbar-title>
+        <div class="initials">
           <p>{{initials}}</p>
         </div>
       </v-toolbar>
@@ -67,7 +65,7 @@
           </transition>
         </v-container>
       </v-content>
-      <!-- <v-footer app v-show="signedIn"></v-footer> -->
+      <v-footer app v-show="signedIn" class="cyan--text"><v-spacer></v-spacer>0.0.1</v-footer>
     </v-app>
   </div>
 </template>
@@ -171,9 +169,10 @@ a .list__tile__title {
   margin-top: 0;
   position: absolute;
   right: 0;
+  background: #00BCD4;
 }
 .initials p {
   margin: 2px 0 0;
-  color: #00BCD4;
+  color: white;
 }
 </style>
