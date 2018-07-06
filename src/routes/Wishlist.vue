@@ -5,7 +5,7 @@
       <h3>Lists</h3>
       <div class="buttons">
         <v-btn fab dark color="cyan" @click="createList">
-          <v-icon dark size="30" style="marginTop:23px;">add</v-icon>
+          <v-icon dark size="30">add</v-icon>
         </v-btn>
       </div>
     </div>
@@ -22,16 +22,16 @@
 
       <div class="wishlist" v-show="!editList && showList">
         <div class="top">
-          <button class="edit" @click="backtoLists"><v-icon>arrow_back</v-icon></button>
+          <v-btn fab small color="cyan" @click="backtoLists"><v-icon size="24" dark>arrow_back</v-icon></v-btn>
           <div v-show="mainItems.created == name" class="edit-trash">
-            <button class="edit" @click="editThisList"><v-icon>edit</v-icon></button>
-            <button class="edit" @click="deleteList"><v-icon>delete</v-icon></button>
+            <v-btn fab small color="cyan" @click="editThisList"><v-icon size="24" dark>edit</v-icon></v-btn>
+            <v-btn fab small color="cyan" @click="deleteList"><v-icon size="24" dark>delete</v-icon></v-btn>
           </div>
           <p class="title">{{mainItems.for}}</p>
         </div>
         <ul>
           <li v-for="(item, index) in mainItems.items" @click="strike(index)">
-            <div class="make-strike" :class="{strike: got[index]}"><v-icon class="animated flipInY" v-show="got[index]">check</v-icon></div>
+            <div class="make-strike" :class="{strike: got[index]}"><v-icon dark size="15" v-show="got[index]">check</v-icon></div>
             <p :class="{strike: got[index]}">{{item.item}}</p>
           </li>
         </ul>
@@ -52,9 +52,9 @@
                 </li>
               </ul>
               <div class="buttons">
-                <button @click="addItem" class="edit"><v-icon>add</v-icon></button>
-                <button class="edit" @click="pushList"><v-icon>save</v-icon></button>
-                <button class="edit" @click="createList"><v-icon>clear</v-icon></button>
+                <v-btn fab small color="cyan" @click="addItem"><v-icon size="24" dark>add</v-icon></v-btn>
+                <v-btn fab small color="cyan" @click="pushList"><v-icon size="24" dark>save</v-icon></v-btn>
+                <v-btn fab small color="cyan" @click="createList"><v-icon size="24" dark>clear</v-icon></v-btn>
               </div>
           </v-card>
         </v-dialog>
@@ -69,13 +69,13 @@
           </li>
         </ul>
         <div class="buttons">
-          <button @click="editItemsAdd" class="edit"><v-icon>add</v-icon></button>
-          <button class="edit" @click="saveEditList"><v-icon>save</v-icon></button>
+          <v-btn fab small color="cyan" @click="editItemsAdd"><v-icon size="24" dark>add</v-icon></v-btn>
+          <v-btn fab small color="cyan" @click="saveEditList"><v-icon size="24" dark>save</v-icon></v-btn>
         </div>
       </div>
 
     <!-- MODAL -->
-    <transition
+    <!-- <transition
       name="custom-classes-transition"
       enter-active-class="animated fadeIn"
       leave-active-class="animated fadeOut"
@@ -87,7 +87,18 @@
           <button class="modal-btn" @click="noModal">NO</button>
         </div>
       </div>
-    </transition>
+    </transition> -->
+    <v-dialog
+      v-model="modal"
+      width="400"
+      persistent
+    >
+      <v-card height="200">
+        <p>Are you sure?</p>
+        <v-btn large color="error" @click="yesModal">YES</v-btn>
+        <v-btn large color="cyan" @click="noModal">NO</v-btn>
+      </v-card>
+    </v-dialog>
   </section>
 </template>
 
@@ -478,19 +489,23 @@ export default {
       }
       .make-strike {
         float: left;
+        margin-top: 3px;
         font-size: 0.8rem;
         background: #fff;
         border: 1px solid #ccc;
-        width: 10px;
-        height: 10px;
+        width: 18px;
+        height: 18px;
         color: #fff;
-        padding: 3px;
+        padding: 1px;
         border-radius: 50%;
         text-transform: uppercase;
         text-align: center;
         &.strike {
           background: #00BCD4;
           border: 1px solid #00BCD4;
+        }
+        .v-icon {
+          vertical-align: top;
         }
       }
       p {
@@ -543,42 +558,25 @@ export default {
     }
   }
 }
-.modal {
-  position: absolute;
-  background: transparentize(#eeeeee, 0.4);
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  .modal-window {
-    background: #fff;
-    width: 350px;
-    height: 200px;
-    display: block;
-    margin: 0 auto;
-    margin-top: 5%;
-    text-align: center;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.16),0px 2px 5px 0px rgba(0, 0, 0, 0.26);
-    p {
-      margin: 0;
-      padding-top: 12%;
-      text-align: center;
-      font-size: 2rem;
-      color: #666;
-    }
-    button {
-      padding: 10px 20px;
-      border-radius: 5px;
-      background: #00BCD4;
-      color: #fff;
-      text-transform: uppercase;
-      display: inline-block;
-      margin: 20px 8px;
-      font-size: 1.25rem;
-      width: 75px;
-    }
+.v-card {
+  p {
+    font-size: 1.35rem;
+    padding-top: 50px;
+  }
+  .v-btn {
+    color: white;
+  }
+}
+.buttons {
+  .v-icon {
+    height: auto;
+    color: white;
+  }
+}
+.top {
+  .v-icon {
+    height: auto;
+    color: white;
   }
 }
 </style>

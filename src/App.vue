@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-app>
-      <Auth :comments="comments" @signedIn="signedIn = true" v-show="!signedIn"></Auth>
+      <Auth :comments="comments" @signedIn="signedIn = true" :signedIn="!signedIn"></Auth>
       <v-navigation-drawer width="225" clipped v-model="drawer" app v-show="signedIn">
       <v-divider></v-divider>
       <v-list dense class="pt-0">

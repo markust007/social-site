@@ -1,5 +1,5 @@
 <template>
-  <section id="auth">
+  <!-- <section id="auth">
     <div class="tabs">
       <button class="tab" :class="{selected: sign}" @click="sign = true">Sign In</button>
       <button class="tab" :class="{selected: !sign}" @click="sign = false">Sign Up</button>
@@ -24,7 +24,43 @@
         <button @click.prevent="pass = !pass"><i class="fas fa-eye" v-if="pass"></i><i class="fas fa-eye-slash" v-else></i></button>
       </form>
     </div>
-  </section>
+  </section> -->
+  <v-dialog
+      v-model="signedIn"
+      max-width="450"
+      persistent
+    >
+    <div class="sign in" v-show="sign">
+      <p class="head">Sign In</p>
+      <form>
+        <v-text-field v-model="email" type="email" color="cyan" background-color="white" placeholder="EMAIL" required></v-text-field>
+        <v-text-field v-model="password" :type="pass ? 'password' : 'text'" color="cyan" background-color="white" placeholder="PASSWORD" required></v-text-field>
+        <!-- <input type="email" v-model="email" placeholder="EMAIL" required /> -->
+        <!-- <input :type="pass ? 'password' : 'text'" v-model="password" placeholder="PASSWORD" required /> -->
+        <v-btn large color="cyan" type="submit" value="GO!" @click.prevent="toggleSignIn">GO!</v-btn>
+        <div>
+          <v-btn class="signup-btn" color="cyan" flat small @click.prevent="sign = false">Sign Up</v-btn>
+        </div>
+        <button @click.prevent="pass = !pass"><v-icon v-if="pass">remove_red_eye</v-icon><v-icon v-else>block</v-icon></button>
+      </form>
+    </div>
+    <div class="sign up" v-show="!sign">
+      <p class="head">Sign Up</p>
+      <form>
+        <v-text-field v-model="email" type="email" color="cyan" background-color="white" placeholder="EMAIL" required></v-text-field>
+        <v-text-field v-model="password" :type="pass ? 'password' : 'text'" color="cyan" background-color="white" placeholder="PASSWORD" required></v-text-field>
+        <v-text-field v-model="name" type="text" color="cyan" background-color="white" placeholder="YOUR NAME" required></v-text-field>
+        <!-- <input type="email" v-model="email" placeholder="EMAIL" required /> -->
+        <!-- <input :type="pass ? 'password' : 'text'" v-model="password" placeholder="PASSWORD" required /> -->
+        <v-btn large color="cyan" type="submit" value="GO!" @click.prevent="handleSignUp">GO!</v-btn>
+        <div>
+          <v-btn class="signup-btn" color="cyan" flat small @click.prevent="sign = true">Sign In</v-btn>
+        </div>
+        <button @click.prevent="pass = !pass"><v-icon v-if="pass">remove_red_eye</v-icon><v-icon v-else>block</v-icon></button>
+      </form>
+    </div>
+    </v-dialog>
+
 </template>
 
 <script>
@@ -259,7 +295,7 @@ export default {
     }, 500);
   },
   components: {},
-  props: ["comments"]
+  props: ["comments", "signedIn"]
 };
 </script>
 
@@ -290,7 +326,7 @@ export default {
   cursor: default;
 }
 .sign {
-  padding: 10px;
+  padding: 15px 25px;
   background: #fff;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
@@ -305,10 +341,13 @@ export default {
     position: relative;
     button {
       position: absolute;
-      top: 94px;
-      right: 10px;
+      top: 73px;
+      right: 1px;
       font-size: 1.25rem;
       color: #00BCD4;
+      &:focus {
+        outline: none;
+      }
     }
   }
 }
@@ -326,15 +365,13 @@ input[type="email"], input[type="text"], input[type="password"] {
     color: #ccc;
   }
 }
-input[type="submit"] {
+.sign form button.v-btn {
   color: #fff;
-  padding: 10px 20px;
-  border-radius: 5px;
-  background: #00BCD4;
-  text-transform: uppercase;
-  display: block;
-  margin: 10px auto 15px;
-  font-size: 1.1rem;
-  cursor: pointer;
+  top: 0;
+  right: 0;
+  position: relative;
+}
+.sign form button.signup-btn {
+  font-size: 0.9rem;
 }
 </style>
