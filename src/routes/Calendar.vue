@@ -1,12 +1,13 @@
 <template>
   <div>
     <div class="chart-top">
+      <AddDate @newDate="updateDate" @addDate="addDate"></AddDate>
       <Datepicker @newDate="updateDate" ref="picker"></Datepicker>
       <Page @left="left" @right="right"></Page>
     </div>
     <div class="chart">
-      <Units :units="units"></Units>
-      <Chart :date="date" :units="units">
+      <Units :units="units" v-if="units"></Units>
+      <Chart :date="date" :units="units" v-if="units" ref="chart">
         <!-- <Booking></Booking> -->
       </Chart>
     </div>
@@ -14,7 +15,10 @@
 </template>
 
 <script>
+import firebase from 'firebase'
+import { config, app, users, comments, wishlist, fs, timestamp } from '../util/config'
 import moment from 'moment'
+import AddDate from './calendar/AddDate'
 import Datepicker from './calendar/Datepicker'
 import Page from './calendar/Page'
 import Units from './calendar/Units'
@@ -25,10 +29,23 @@ export default {
   data () {
     return {
       date: null,
-      units: ['Unit 1', 'Unit 2', 'Unit 3', 'Unit 4', 'Unit 5', 'Unit 6', 'Unit 7', 'Unit 8']
+      units: []
     }
   },
   methods: {
+    addDate() {
+      this.$refs.chart.calendar()
+    },
+    names() {
+      const users = fs.collection("users");
+      users.get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          this.units.push(doc.data().name)
+        });
+      }).catch((error) => {
+          console.log("Error getting name:", error);
+      });
+    },
     updateDate(date) {
       this.date = date
     },
@@ -49,8 +66,11 @@ export default {
       this.$refs.picker.right()
     }
   },
+  mounted() {
+    this.names()
+  },
   components: {
-    Datepicker, Page, Units, Chart, Booking
+    AddDate, Datepicker, Page, Units, Chart, Booking
   }
 }
 </script>

@@ -15,10 +15,10 @@ const store = new Vuex.Store({
     reservation: [
       {
         id: uid(),
-        arrival: '2018-06-19',
-        depart: '2018-06-20',
-        customer: 'John Lennon',
-        unit: 'Unit 1'
+        arrival: '2018-07-11',
+        depart: '2018-07-14',
+        customer: 'Out of town',
+        unit: 'Mark Carey'
       },
       {
         id: uid(),

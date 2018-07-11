@@ -9,7 +9,7 @@
       lazy
       transition="scale-transition"
       offset-y
-      min-width="100px"
+      min-width="50px"
     >
       <v-text-field
         slot="activator"
@@ -94,10 +94,10 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="scss">
 .datepicker {
   width: 25%;
   text-align: left;
-  border: 1px solid #e1e1e1;
+  /* border: 1px solid #e1e1e1; */
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <ul class="container">
-    <li class="header"><p>Units</p></li>
+    <li class="header"><p>Name</p></li>
     <li class="unit" v-for="(item, index) in units">
       <p>{{item}}</p>
     </li>

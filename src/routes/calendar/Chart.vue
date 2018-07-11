@@ -4,8 +4,8 @@
           <div v-for="day in days">{{day | moment('MMM D')}}</div>
         </div>
         <div class="calendar__week" v-for="(item, index) in units">
-          <span v-for="(r, id) in res" v-if="r.unit == item && r.depart >= arrive && r.depart < leave" :style="[leftStyle(r.arrival), widthStyle(r.arrival, r.depart)]">
-            <v-icon left size="20" color="white" style="verticalAlign:top;padding:5px 0 0 5px;">person</v-icon><p>{{r.customer}}</p>
+          <span v-for="(r, id) in res" v-if="r.name == item && r.depart >= arrive && r.depart < leave" :style="[leftStyle(r.arrival), widthStyle(r.arrival, r.depart)]">
+            <v-icon left size="20" color="white" style="verticalAlign:top;padding:5px 0 0 5px;">person</v-icon><p>{{r.message}}</p>
           </span>
           <div class="calendar__day day" v-for="day in days">
           </div>
@@ -15,12 +15,13 @@
 
 <script>
 import moment from 'moment'
-
+import firebase from 'firebase'
+import { config, app, users, comments, wishlist, fs, timestamp } from '../../util/config'
 export default {
   name: 'Chart',
   data () {
     return {
-
+      res: []
     }
   },
   computed: {
@@ -38,9 +39,9 @@ export default {
       let array = Array(7).fill().map((_, i) => moment(this.newDate).clone().add(i, 'days').format('YYYY-MM-DD'))
       return array
     },
-    res() {
-      return this.$store.state.reservation
-    },
+    // res() {
+    //   return this.$store.state.reservation
+    // },
     newDate() {
       if(!this.date) {
         return moment().format('YYYY-MM-DD')
@@ -61,6 +62,16 @@ export default {
     }
   },
   methods: {
+    calendar() {
+      const users = fs.collection("calendar");
+      users.get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          this.res.push(doc.data())
+        });
+      }).catch((error) => {
+          console.log("Error getting name:", error);
+      });
+    },
     leftStyle(arrival) {
       switch(true) {
         case arrival < moment(this.newDate).format('YYYY-MM-DD'):
@@ -117,6 +128,7 @@ export default {
     }
   },
   mounted() {
+    this.calendar()
     //Get dates allowed for datepicker
     let arr = []
     let dep = []
