@@ -1,7 +1,7 @@
 <template>
   <div class="buttons">
-    <button @click="$emit('left')"><v-icon>keyboard_arrow_left</v-icon></button>
-    <button @click="$emit('right')"><v-icon>keyboard_arrow_right</v-icon></button>
+    <button @click="$emit('left')"><v-icon large>keyboard_arrow_left</v-icon></button>
+    <button @click="$emit('right')"><v-icon large>keyboard_arrow_right</v-icon></button>
   </div>
 </template>
 
@@ -28,14 +28,18 @@ export default {
 
 <style scoped>
 .buttons {
-  -webkit-box-flex: 4;
-  -ms-flex: 4;
-  flex: 4;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
   text-align: right!important;
-  margin-top: 10px;
 }
 button {
-  border: 1px solid #e1e1e1;
+  background: white;
   border-radius: 2px;
+  height: 48px;
+  width: 48px;
+}
+button:focus {
+  outline: none;
 }
 </style>

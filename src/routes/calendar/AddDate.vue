@@ -13,11 +13,13 @@
       max-width="650"
     >
     <div class="modal">
-      <p>Pick a date range for your event</p>
-      <v-date-picker v-model="firstDate" no-title scrollable>
-      </v-date-picker>
-      <v-date-picker v-model="secondDate" no-title scrollable :allowed-dates="allowedDates">
-      </v-date-picker>
+      <h2>Pick a date range for your event</h2>
+      <div class="header">
+        <p>Start</p>
+        <p>End</p>
+      </div>
+      <v-date-picker v-model="firstDate" no-title scrollable></v-date-picker>
+      <v-date-picker v-model="secondDate" no-title scrollable :allowed-dates="allowedDates"></v-date-picker>
       <v-text-field placeholder="Add Comment" v-model="message"></v-text-field>
       <v-btn flat color="cyan" @click="dialog = false">Cancel</v-btn>
       <v-btn flat color="cyan" @click="saveDate">OK</v-btn>
@@ -112,6 +114,18 @@ export default {
 .datepicker {
   text-align: left;
   /* border: 1px solid #e1e1e1; */
+}
+.header {
+  display: flex;
+  p {
+    flex: 1 1 0;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    font-weight: bold;
+    background: #666;
+    color: white;
+    padding: 3px;
+  }
 }
 .modal {
   background: #f5f5f5;

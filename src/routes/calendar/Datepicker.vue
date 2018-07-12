@@ -96,8 +96,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .datepicker {
-  width: 25%;
-  text-align: left;
+  flex: 10;
+  text-align: right;
   /* border: 1px solid #e1e1e1; */
 }
 </style>

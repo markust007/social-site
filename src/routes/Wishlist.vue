@@ -30,9 +30,9 @@
           <p class="title">{{mainItems.for}}</p>
         </div>
         <ul>
-          <li v-for="(item, index) in mainItems.items" @click="strike(index)">
-            <div class="make-strike" :class="{strike: got[index]}"><v-icon dark size="15" v-show="got[index]">check</v-icon></div>
-            <p :class="{strike: got[index]}">{{item.item}}</p>
+          <li v-for="(item, index) in mainItems.items">
+            <div @click="strike(index)" class="make-strike" :class="{strike: got[index]}"><v-icon dark size="15" v-show="got[index]">check</v-icon></div>
+            <p v-html="item.item" :class="{strike: got[index]}" ref="items"></p>
           </li>
         </ul>
       </div>
@@ -174,6 +174,24 @@ export default {
       //  console.log(‘one of these updates failed’, err);
       // });
     },
+    url() {
+      const items = this.mainItems.items
+      let text = items.map((item, index) => {
+         let val = item.item
+         const firstIndex = val.indexOf('http')
+         // const lastIndex = 
+         const urlRegex = /(https?:\/\/[^\s]+)/g;
+         if(val.includes('https' || 'http')) {
+           let link = '<a href="' + val + '" target="_blank">' + val + '</a>';
+           console.log(val)
+           this.mainItems.items[index].item = this.mainItems.items[index].item.replace(val, link)
+           // val.replace(urlRegex, (url) => {
+           //   let link = '<a href="' + url + '" target="_blank">' + url + '</a>';
+           //   this.mainItems.items[index].item = this.mainItems.items[index].item.replace(val, link)
+           // })
+         }
+      })
+    },
     gone(num) {
       wishlist.child("" + this.key + "").child("items").child("" + num + "").child("got").on('value').then((snapshot) => {
         let value = snapshot.val();
@@ -248,6 +266,7 @@ export default {
     },
     addItem() {
       this.items.push({"item": "", "got": false});
+      this.url()
       this.$forceUpdate();
     },
     editItemsAdd() {
@@ -260,6 +279,7 @@ export default {
       wishlist.child(this.key).set(this.editItems);
       this.mainItems = this.editItems
       this.editList = false
+      this.url()
     },
     createList() {
       if(this.newList) {
@@ -290,6 +310,19 @@ export default {
       // });
       let pushList = wishlist.push(this.newItems);
       this.key = pushList.key
+
+      const items = this.items
+      let text = items.map((item, index) => {
+         let val = item.item
+         const urlRegex = /(https?:\/\/[^\s]+)/g;
+         if(val.includes('https' || 'http')) {
+           val.replace(urlRegex, (url) => {
+             let link = '<a href="' + url + '" target="_blank">' + url + '</a>';
+             this.items[index].item = this.items[index].item.replace(val, link)
+           })
+         }
+      })
+
       wishlist.child(this.key).child("items").set(this.items);
       this.newList = false
       this.newItems = {
@@ -299,6 +332,7 @@ export default {
         items: [{"item": "Edit Item", "got": false}]
       }
       this.items = [{"item": "Edit Item", "got": false}]
+      this.dialog = false
       return pushList
     },
     // editList() {
@@ -461,10 +495,11 @@ export default {
   border: 1px solid #ccc;
   border-radius: 4px;
   .top {
-    background: rgba(0,0,0,0.08);
+    background: white;
     padding: 10px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
+    border-bottom: 1px dotted #ccc;
     .edit-trash {
       display: inline-block;
     }
@@ -482,7 +517,6 @@ export default {
     li {
       border-bottom: 1px solid #ccc;
       padding: 10px 5px;
-      cursor: pointer;
       &:last-child {
         border-bottom: 0px solid #ccc;
         margin-bottom: 5px;
@@ -500,6 +534,7 @@ export default {
         border-radius: 50%;
         text-transform: uppercase;
         text-align: center;
+        cursor: pointer;
         &.strike {
           background: #00BCD4;
           border: 1px solid #00BCD4;
