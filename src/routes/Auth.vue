@@ -29,6 +29,7 @@
       v-model="signedIn"
       max-width="450"
       persistent
+      hide-overlay
     >
     <div class="sign in" v-show="sign">
       <p class="head">Sign In</p>

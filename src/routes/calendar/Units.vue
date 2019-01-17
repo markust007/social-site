@@ -1,7 +1,7 @@
 <template>
   <ul class="container">
     <li class="header"><p>Name</p></li>
-    <li class="unit" v-for="(item, index) in units">
+    <li class="unit" v-for="item in units">
       <p>{{item}}</p>
     </li>
   </ul>
